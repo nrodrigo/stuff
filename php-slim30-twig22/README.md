@@ -2,11 +2,11 @@
 
 Several hours of frustration mulling over Slim and Twig's mediocre documentation has led to this README.  I hope it saves somebody out there some frustration.
 
-Anyways, what it available in Slim's [documentation](https://www.slimframework.com/docs/features/templates.html) is mostly right but there have been so many iteration's with so many examples out there that just won't work.
+Anyways, what is available in Slim's [documentation](https://www.slimframework.com/docs/features/templates.html) is mostly right but there have been so many iterations with so many examples for outdated versions out there that just won't work.
 
 For me, the example pulled up a blank page.  For hours.  Days even!
 
-In a nutshell, the code from the example:
+In a nutshell, the code from the example (index.php):
 
 ```
 <?php
@@ -38,7 +38,14 @@ $app->get('/hello/{name}', function ($request, $response, $args) {
 $app->run();
 ```
 
-Simple.  All well and good.  After several years break from PHP, I don't really understand why this simple stub needs to be so cryptic.  `$container` is what...?  A property of app now?  Is this a pointer?  And referencing `$this->view` in my '/hello/{name}' route... seriously now?
+With hello.html simply being:
+```
+{% block body %}
+<p>Hello {{name}}</p>
+{% endblock %}
+```
+
+Simple.  All well and good.  After several years break from PHP, I don't really understand why this simple stub needs to be so cryptic.  `$container` is what...?  A property of app now?  Is this a reference?  And `$this->view` in my '/hello/{name}' route... seriously now?  A little too much JS-influence IMO.  Let PHP do the work of PHP.
 
 Anyways, this example returned nothing forever.  I sent the output of `$this->view->render` to the error log and only got:
 ```
@@ -51,7 +58,7 @@ Content-Type: text/html; charset=UTF-8
 'cache' => false //__DIR__.'/../resources/cache'
 ```
 
-I thought these frameworks was supposed to be smart?  What is the cache dir used for if not to cache front-end components?  It's being defined with the view... wth!?
+I thought these frameworks was supposed to be smart?  What is the cache dir used for if not to cache front-end components?  It's being defined with the view... wth!?  Digging into the files placed in the cache docs, I only see PHP code.  Again... what?  I'm pretty sure I'm just an old dinosaur that needs to get with the times.
 
 Slim docs provide this caveat (discovered after the fact):
 ```
