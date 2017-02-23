@@ -38,9 +38,9 @@ $app->get('/hello/{name}', function ($request, $response, $args) {
 $app->run();
 ```
 
-Simple.  All well and good.  After several years break from PHP, I don't really understand why this simple stub needs to be so cryptic.  `$container` is what...?  A property of app now?  Is this a pointer?  And referencing `$this-\>view` in my '/hello/{name}' route... seriously now?
+Simple.  All well and good.  After several years break from PHP, I don't really understand why this simple stub needs to be so cryptic.  `$container` is what...?  A property of app now?  Is this a pointer?  And referencing `$this->view` in my '/hello/{name}' route... seriously now?
 
-Anyways, this example returned nothing forever.  I sent the output of `$this-\>view-\>render` to the error log and only got:
+Anyways, this example returned nothing forever.  I sent the output of `$this->view->render` to the error log and only got:
 ```
 Content-Type: text/html; charset=UTF-8
 ```
@@ -48,13 +48,15 @@ Content-Type: text/html; charset=UTF-8
 ...forever, annoyingly.  I changed file paths, tried out a million different examples for older version of twig and the only stupid change that needed to be made was this:
 
 ```
-'cache' => false \/\/__DIR__.'/../resources/cache'
+'cache' => false //__DIR__.'/../resources/cache'
 ```
 
 I thought these frameworks was supposed to be smart?  What is the cache dir used for if not to cache front-end components?  It's being defined with the view... wth!?
 
 Slim docs provide this caveat (discovered after the fact):
+```
 Note : “cache” could be set to false to disable it, see also ‘auto_reload’ option, useful in development environment.
+```
 
 They should really rewrite this to: "not setting cache to false will result of renderring blank templates".
 
